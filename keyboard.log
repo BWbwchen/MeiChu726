@@ -1,24 +1,7 @@
-alphanumeric key h pressed
-'h' released
-duration = 0.058936
-
-alphanumeric key e pressed
-'e' released
-duration = 0.080631
-
-alphanumeric key l pressed
-'l' released
-duration = 0.063344
-
-alphanumeric key l pressed
-'l' released
-duration = 0.071430
-
-alphanumeric key o pressed
-'o' released
-duration = 0.053983
+'s' released
+duration = 1603538376.252040
 
 special key Key.esc pressed
 Key.esc released
-duration = 0.118735
+duration = 0.088503
 
