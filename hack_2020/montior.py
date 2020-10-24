@@ -12,8 +12,6 @@ delta_t = 0.0
 mouse_time_end = 0.0
 mouse_initial = 0.0
 
-press_
-
 action = [] # for keyboard
 
 def redirect(filePath, val):
