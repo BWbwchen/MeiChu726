@@ -23,7 +23,7 @@ def on_move(x, y):
 def on_click(x, y, button, pressed):
     print('{0} at {1}'.format('Pressed' if pressed else 'Released',(x, y)))
     redirect(FILEPATH, '{0} at {1}'.format('Pressed' if pressed else 'Released',(x, y)))
-    # if not pressed:
+    # if getkey(blocking = False) == 'ESC':
     #     # Stop listener
     #     return False
 
@@ -57,6 +57,8 @@ def on_release(key):
         # Stop listener
         with open('keyboard.log', 'w') as fh:
             fh.writelines(action)
+        # mouse.Listener.stop(listener)
+        print('Collect data ends!')
         return False
 
 
@@ -70,27 +72,30 @@ def on_release(key):
 #     listener.join()
 
 # ...or, in a non-blocking fashion:
-if __name__ == '__main__':
-    
+# if __name__ == '__main__':
+def main():
+    print('Starting collect data')
     # clear the mouse data
     with open('mouse_log.txt', 'w') as f:
         f.write('\n')
     # Collect events until released
-    
-
+    # while True:
+    #     if getkey(blocking = False) == 'S' or 's':
+    #         break
+    global listener
     listener = mouse.Listener(
             on_move=on_move,
             on_click=on_click,
             on_scroll=on_scroll)
     listener.start()
-    while True:
-        with keyboard.Listener(on_press=on_press, on_release=on_release) as key_listener:
-            key_listener.join()
-        # time.sleep(1)
-        k = getkey(blocking = False)
-        if keys.name(k) == "ESC":
-            mouse.Listener.stop(listener)
-            print('Collect data ends!')
-            break
+    # while True:
+    with keyboard.Listener(on_press=on_press, on_release=on_release) as key_listener:
+        key_listener.join()
+            # k = None
+            # k = getkey(blocking = True)
+            # if keys.name(k) == "ESC":
+            #     mouse.Listener.stop(listener)
+            #     print('Collect data ends!')
+            #     return
 
-          
+main()
