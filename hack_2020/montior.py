@@ -20,23 +20,27 @@ def redirect(filePath, val):
             print(val)
 
 def on_move(x, y):
-    print('Pointer moved to {0}'.format((x, y)))
     global mouse_initial
     mouse_time_end = time.time()
     meas_time = mouse_time_end - mouse_initial
+    print(f'Pointer moved to ({x}, {y}), time = {meas_time}')
     redirect(FILEPATH, f'Pointer moved to ({x}, {y}), time = {meas_time}')
 
 def on_click(x, y, button, pressed):
-    print('{0} at {1}'.format('Pressed' if pressed else 'Released',(x, y)))
-    redirect(FILEPATH, '{0} at {1}'.format('Pressed' if pressed else 'Released',(x, y)))
+    # print('{0} at {1}'.format('Pressed' if pressed else 'Released',(x, y)))
+    global mouse_initial
+    mouse_time_end = time.time()
+    meas_time = mouse_time_end - mouse_initial
+    print('{0} at {1}, time = {2}'.format('Pressed' if pressed else 'Released',(x, y), meas_time))
+    redirect(FILEPATH, '{0} at {1}, time = {2}'.format('Pressed' if pressed else 'Released',(x, y), meas_time))
     # if getkey(blocking = False) == 'ESC':
     #     # Stop listener
     #     return False
 
-def on_scroll(x, y, dx, dy):
-    print('Scrolled {0} at {1}'.format(
-        'down' if dy < 0 else 'up',
-        (x, y)))
+# def on_scroll(x, y, dx, dy):
+#     print('Scrolled {0} at {1}'.format(
+#         'down' if dy < 0 else 'up',
+#         (x, y)))
 
 def on_press(key):
     global t_start
@@ -81,7 +85,7 @@ def on_release(key):
 # if __name__ == '__main__':
 def main():
     global mouse_initial
-    print('Starting collect data')
+    print('Press letter "S" to start collecting data')
     mouse_initial = time.time()
     # clear the mouse data
     with open('mouse_log.txt', 'w') as f:
@@ -96,8 +100,7 @@ def main():
     global listener
     listener = mouse.Listener(
             on_move=on_move,
-            on_click=on_click,
-            on_scroll=on_scroll)
+            on_click=on_click)
     listener.start()
     # while True:
     with keyboard.Listener(on_press=on_press, on_release=on_release) as key_listener:
