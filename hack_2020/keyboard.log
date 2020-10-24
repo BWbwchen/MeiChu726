@@ -1,31 +1,11 @@
 's' released
-duration = 1603531619.359594
-
-alphanumeric key s pressed
-'s' released
-duration = 0.109419
-
-special key Key.enter pressed
-Key.enter released
-duration = 0.079806
-
-special key Key.enter pressed
-Key.enter released
-duration = 0.070811
-
-special key Key.enter pressed
-Key.enter released
-duration = 0.062830
-
-special key Key.enter pressed
-Key.enter released
-duration = 0.070102
+duration = 1603565556.873958
 
 alphanumeric key q pressed
 'q' released
-duration = 0.087327
+duration = 0.077792
 
-special key Key.esc pressed
-Key.esc released
-duration = 0.062585
+special key Key.f8 pressed
+Key.f8 released
+duration = 0.054701
 
