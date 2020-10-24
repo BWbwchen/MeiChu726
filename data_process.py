@@ -1,3 +1,4 @@
+#!/usr/bin/env python3.7
 with open('mouse_log.txt', 'r') as fh:
     L = fh.readlines()
     # print(L)

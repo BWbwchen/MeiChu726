@@ -34,8 +34,8 @@ def on_click(x, y, button, pressed):
     global mouse_initial
     mouse_time_end = time.time()
     meas_time = mouse_time_end - mouse_initial
-    print('{}, {}, {}, {}'.format(meas_time, x, y,
-                                  'Pressed' if pressed else 'Released'))
+    # print('{}, {}, {}, {}'.format(meas_time, x, y,
+    #   'Pressed' if pressed else 'Released'))
     redirect(FILEPATH, '{}, {}, {}, {}'.format(meas_time, x, y,
                                                'Pressed' if pressed else 'Released'))
     # if getkey(blocking = False) == 'ESC':
