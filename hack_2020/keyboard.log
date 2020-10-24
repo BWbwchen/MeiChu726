@@ -1,24 +1,15 @@
+'s' released
+duration = 1603530849.805219
+
 special key Key.ctrl_l pressed
 alphanumeric key  pressed
 Key.ctrl_l released
-duration = 0.077833
+duration = 0.067451
 
-special key Key.enter pressed
 'z' released
-duration = 0.000000
-
-Key.enter released
-duration = 0.066212
-
-special key Key.ctrl_l pressed
-alphanumeric key  pressed
-Key.ctrl_l released
-duration = 0.115750
-
-'q' released
-duration = 0.120646
+duration = 0.114843
 
 special key Key.esc pressed
 Key.esc released
-duration = 0.118069
+duration = 0.063472
 

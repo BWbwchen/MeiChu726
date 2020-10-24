@@ -9,6 +9,11 @@ t_start = 0.0
 t_end = 0.0
 delta_t = 0.0
 
+mouse_time_end = 0.0
+mouse_initial = 0.0
+
+press_
+
 action = [] # for keyboard
 
 def redirect(filePath, val):
@@ -18,7 +23,10 @@ def redirect(filePath, val):
 
 def on_move(x, y):
     print('Pointer moved to {0}'.format((x, y)))
-    redirect(FILEPATH, 'Pointer moved to {0}'.format((x, y)))
+    global mouse_initial
+    mouse_time_end = time.time()
+    meas_time = mouse_time_end - mouse_initial
+    redirect(FILEPATH, f'Pointer moved to ({x}, {y}), time = {meas_time}')
 
 def on_click(x, y, button, pressed):
     print('{0} at {1}'.format('Pressed' if pressed else 'Released',(x, y)))
@@ -74,14 +82,19 @@ def on_release(key):
 # ...or, in a non-blocking fashion:
 # if __name__ == '__main__':
 def main():
+    global mouse_initial
     print('Starting collect data')
+    mouse_initial = time.time()
     # clear the mouse data
     with open('mouse_log.txt', 'w') as f:
         f.write('\n')
     # Collect events until released
-    # while True:
-    #     if getkey(blocking = False) == 'S' or 's':
-    #         break
+    while True:
+        k = getkey()
+        if k == 's' or 'S':
+            break
+        # time.sleep(1)
+        
     global listener
     listener = mouse.Listener(
             on_move=on_move,
