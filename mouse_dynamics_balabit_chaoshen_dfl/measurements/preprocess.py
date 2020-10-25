@@ -12,7 +12,7 @@ def preprocess (wtf, ttype, userid):
     #   4. type
     input_raw_data = np.array(wtf)
     input_raw_data[:, 0] = input_raw_data[:, 0] + 0.000001
-    print ("fuck ", len(input_raw_data))
+    #print ("fuck ", len(input_raw_data))
 
     li = []
     this_type = []
@@ -29,7 +29,7 @@ def preprocess (wtf, ttype, userid):
                 start = -1
 
 
-    print ("this is in preprocess.py, and the length is ", len(li))
+    #print ("this is in preprocess.py, and the length is ", len(li))
     to_res = []
     for index, input_data in enumerate(li) :
         delta_t = input_data[:, 0] - np.insert(input_data[:-1, 0], 0, 0, axis = 0)
@@ -137,7 +137,7 @@ def preprocess (wtf, ttype, userid):
 
 
 
-def get_user_data(file_name1, file_name2):
+def get_user_data(file_name1, file_name2='none'):
     original_user = None
     with open(file_name1, "r") as fh:
         l = fh.readlines()
@@ -153,32 +153,29 @@ def get_user_data(file_name1, file_name2):
             ttype.append(t_type)
         original_user = preprocess(li, ttype, 1)
 
-    other_user = None
-    with open(file_name2, "r") as fh:
-        l = fh.readlines()
-        li = []
-        ttype = []
-        for i in l :
-            temp = i.split(',')
-            t = float(temp[0])
-            x = float(temp[1])
-            y = float(temp[2])
-            t_type = str(temp[3][1:-1])
-            li.append([t, x, y])
-            ttype.append(t_type)
-        other_user = preprocess(li, ttype, 2)
+    if file_name2 != 'none' :
+        other_user = None
+        with open(file_name2, "r") as fh:
+            l = fh.readlines()
+            li = []
+            ttype = []
+            for i in l :
+                temp = i.split(',')
+                t = float(temp[0])
+                x = float(temp[1])
+                y = float(temp[2])
+                t_type = str(temp[3][1:-1])
+                li.append([t, x, y])
+                ttype.append(t_type)
+            other_user = preprocess(li, ttype, 2)
 
-    original = pd.DataFrame(original_user)
-    other = pd.DataFrame(other_user)
-    #print (original)
-    #print (other)
-    fuck = pd.concat([original, other], axis = 0) 
-    #print (fuck)
-    fuck.to_csv('testest.csv', index=False)
-    #print ('csv ok')
-    return fuck
-    #return original
-    #original.to_csv('test.csv', index=False)
+        original = pd.DataFrame(original_user)
+        other = pd.DataFrame(other_user)
+        fuck = pd.concat([original, other], axis = 0) 
+        #fuck.to_csv('testest.csv', index=False)
+        return fuck
+    
+    return pd.DataFrame(original_user)
 
 
 #get_user_data('mouse_log', 1)

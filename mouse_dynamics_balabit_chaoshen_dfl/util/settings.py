@@ -11,11 +11,11 @@ DATASET_USAGE = DATASET_AMOUNT.FIRST1000
 CURRENT_SPLIT_TYPE = SPLIT_TYPE.KEEP_ORDER
 
 # Number of samples used for score computations
-NUM_ACTIONS = 10
+NUM_ACTIONS = 50
 
 # How many training samples to use - works with DATASET_USAGE = DATASET_AMOUNT.FIRST1000
 # should be less or equal than  1000
-NUM_TRAINING_SAMPLES = 50
+NUM_TRAINING_SAMPLES = 500
 
 # Split factor
 TEST_SIZE = 0.25

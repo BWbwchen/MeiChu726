@@ -2,6 +2,7 @@ import pandas as pd
 import warnings
 import copy
 import sys
+import pickle
 
 from itertools import cycle
 from sklearn import model_selection, metrics
@@ -37,26 +38,26 @@ def evaluate_dataset( current_dataset, dataset_amount, num_actions, num_training
     filename2 = "/home/bwbwchen/temp/mouse_dynamics_balabit_chaoshen_dfl/measurements/liu_log"
     """
 
-    print(filename1)
-    print(filename2)
+    #print(filename1)
+    #print(filename2)
     #dataset = pd.read_csv(filename)
     dataset = get_user_data(filename1, filename2)
-    print(dataset.shape)
+    #print(dataset.shape)
 
     # DataFrame
     df = pd.DataFrame(dataset)
 
     num_features = int(dataset.shape[1])
-    print("Num features: ", num_features)
+    #print("Num features: ", num_features)
     array = dataset.values
 
     X = array[:, 0:num_features - 1]
     y = array[:, num_features - 1]
 
     userids = create_userids(current_dataset)
-    userids = [1, 2]
+    userids = [1]
 
-    print(userids)
+    #print(userids)
 
 
     # Train user-specific classifiers and evaluate them
@@ -67,14 +68,17 @@ def evaluate_dataset( current_dataset, dataset_amount, num_actions, num_training
     tpr = {}
     roc_auc = {}
 
+    correct = df.loc[df.iloc[:, -1].isin([1])]
+    wrong = df.loc[df.iloc[:, -1].isin([2])]
+    numSamples = min(correct.shape[0], wrong.shape[0])
 
     for i in userids:
         # print("Training classifier for the user "+str(i))
         # Select all positive samples that belong to current user
         user_positive_data = df.loc[df.iloc[:, -1].isin([i])]
 
-        user_positive_data = user_positive_data.iloc[np.random.choice(user_positive_data.shape[0], 500)]
-        numSamples = user_positive_data.shape[0]
+        user_positive_data = user_positive_data.iloc[np.random.choice(user_positive_data.shape[0], numSamples)]
+        #numSamples = user_positive_data.shape[0]
         array_positive = copy.deepcopy(user_positive_data.values)
         array_positive[:, -1] = 1
 
@@ -93,20 +97,25 @@ def evaluate_dataset( current_dataset, dataset_amount, num_actions, num_training
             print ("random split")
         else:
             X_train, X_validation, y_train, y_validation = keeporder_split(X, y, test_size=TEST_SIZE)
-            print ("fuck split")
+            #print ("fuck split")
 
         model = RandomForestClassifier(random_state= RANDOM_STATE)
         model.fit(X_train, y_train)
 
         # scoring = ['accuracy', 'roc_auc' ]
         # scores = cross_validate(model, X_train, y_train, scoring=scoring, cv = 10, return_train_score = False)
-        scores = cross_validate(model, X_train, y_train, cv=10, return_train_score=False)
+        scores = cross_validate(model, X_train, y_train, cv=25, return_train_score=False)
         cv_accuracy = scores['test_score']
         print("CV Accuracy: %0.2f (+/- %0.2f)" % (cv_accuracy.mean(), cv_accuracy.std() * 2))
 
+        print ("validation shape ", X_validation.shape)
         y_predicted = model.predict(X_validation)
         test_accuracy = accuracy_score(y_validation, y_predicted)
         print("Test Accuracy: %0.2f, y_predicted[0]" % test_accuracy, y_predicted[0])
+
+        # save model
+        with open('outmodel.pkl', 'wb') as f:
+            pickle.dump(model, f)
 
         fpr[i], tpr[i], thr = evaluate_sequence_of_samples(model, X_validation, y_validation, num_actions)
 
